@@ -1,0 +1,169 @@
+{% extends 'hospital/doctor_base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<head>
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    .note {
+      text-align: center;
+      height: 80px;
+      background: -webkit-linear-gradient(left, #0072ff, #8811c5);
+      color: #fff;
+      font-weight: bold;
+      line-height: 80px;
+    }
+
+    .form-content {
+      padding: 5%;
+      border: 1px solid #ced4da;
+      margin-bottom: 2%;
+    }
+
+    .form-control {
+      border-radius: 1.5rem;
+    }
+
+    .btnSubmit {
+      border: none;
+      border-radius: 1.5rem;
+      padding: 1%;
+      width: 20%;
+      cursor: pointer;
+      background: #0062cc;
+      color: #fff;
+    }
+
+    .menu {
+      top: 50px;
+    }
+  </style>
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<br><br>
+
+{% comment %} Updated Code: {% endcomment %}
+<div class="container register-form">
+  <div class="form">
+    <div class="note">
+      <p>Update Patient Details</p>
+    </div>
+    <div class="form-content">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6">
+
+            <!-- Hide the password field -->
+            {{ userForm.password }}
+            
+            <!-- The assignedDoctorId field is now a hidden input -->
+            {{ patientForm.assignedDoctorId }}
+
+            <div class="form-group">
+              <label for="{{ userForm.first_name.id_for_label }}">First Name:</label>
+              {% render_field userForm.first_name class="form-control" placeholder="First Name" %}
+            </div>
+
+            <div class="form-group">
+              <label for="{{ userForm.username.id_for_label }}">Username:</label>
+              {% render_field userForm.username class="form-control" placeholder="Username" %}
+            </div>
+            <div class="form-group">
+              <label for="{{ patientForm.address.id_for_label }}">Address:</label>
+              {% render_field patientForm.address class="form-control" placeholder="Address" %}
+            </div>
+            <div class="form-group">
+              <label for="{{ patientForm.treatment_type.id_for_label }}">Treatment Type:</label>
+              {% render_field patientForm.treatment_type class="form-control" placeholder="Treatment Type" %}
+            </div>
+          
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="{{ patientForm.cholesterol_level.id_for_label }}">Cholesterol Level:</label>
+              {% render_field patientForm.cholesterol_level class="form-control" placeholder="Cholesterol Level" %}
+            </div>
+            <div class="form-group">
+              <label for="{{ patientForm.weight_lb.id_for_label }}">Weight (lb):</label>
+              {% render_field patientForm.weight_lb class="form-control" placeholder="Weight(lb)" %}
+            </div>
+            <div class="form-group">
+              <label for="{{ patientForm.bp_1s.id_for_label }}">First Systolic Blood Pressure:</label>
+              {% render_field patientForm.bp_1s class="form-control" placeholder="First Systolic Blood Pressure" %}
+            </div>
+            <div class="form-group">
+              <label for="{{ patientForm.notes.id_for_label }}">Notes:</label>
+              {% render_field patientForm.notes class="form-control" placeholder="Notes" %}
+            </div>
+
+            
+          </div>
+        </div>
+        <button type="submit" class="btnSubmit">Update</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% comment %} Prevous Code: {% endcomment %}
+{% comment %} <!------ update page for doctor by admin(sumit)  ---------->
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="container register-form">
+    <div class="form">
+      <div class="note">
+        <p>Update Patient Details</p>
+      </div>
+      <div class="form-content">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              {% render_field userForm.first_name class="form-control" placeholder="First Name" %}
+            </div>
+            <div class="form-group">
+              {% render_field userForm.username class="form-control" placeholder="Username" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.address class="form-control" placeholder="Address" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.treatment_type class="form-control" placeholder="Treatment Type" %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              {% render_field patientForm.cholesterol_level  class="form-control" placeholder="Cholesterol Level " %}
+            </div>
+            
+            <div class="form-group">
+              {% render_field patientForm.weight_lb class="form-control" placeholder="Weight(lb) " %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.bp_1s class="form-control" placeholder="First Systolic Blood Pressure " %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.notes  class="form-control" placeholder="Notes " %}
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btnSubmit">Update</button>
+      </div>
+    </div>
+  </div>
+</form> {% endcomment %}
+<!--
+developed By : sumit kumar
+facebook : fb.com/sumit.luv
+youtube : youtube.com/lazycoders
+-->
+
+{% endblock content %}

@@ -1,0 +1,23 @@
+
+
+#You can Go through with these api's:
+
+Route name is : http://127.0.0.1:8000/  => This is your domain name, it can be different
+api/ in which we serve our  records (like, login, logout, patients, patients/id)
+
+
+Login:
+1- http://127.0.0.1:8000/api/login/     (POST METHOD)
+
+
+logout:
+2- http://127.0.0.1:8000/api/logout/    (GET METHOD)
+
+
+Patients Record:
+2- http://127.0.0.1:8000/api/patients/    (GET METHOD)
+
+
+Patients individual record to be accessed:
+2- http://127.0.0.1:8000/api/patients/2  (GET METHOD) 
+   like you can put (2,3,4) which is present   

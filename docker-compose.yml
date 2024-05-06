@@ -1,0 +1,38 @@
+version: '3'
+services:
+  django:
+    build:
+      context: ./ehr-main
+      dockerfile: Dockerfile.django
+    container_name: my-django-container
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ehr-main:/app
+    networks:
+      dnet:
+        ipv4_address: 172.29.0.15
+    depends_on:
+      - flask
+    # command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+  flask:
+    build:
+      context: ./flask_abe
+      dockerfile: Dockerfile.flask
+    container_name: my-flask-container
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./flask_abe:/app
+    networks:
+      dnet:
+        ipv4_address: 172.29.0.16
+    # command: ["flask", "run", "--host=0.0.0.0"]
+
+networks:
+  dnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "172.29.0.0/16"

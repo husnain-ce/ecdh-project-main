@@ -1,0 +1,87 @@
+{% extends 'hospital/doctor_base.html' %}
+{% block content %}
+{%load static%}
+{% load tz %}
+
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+    }
+
+    .row {
+      margin: 100px;
+    }
+  </style>
+</head>
+
+
+
+<div class="container">
+
+    <form  action="/search" method="get" style="margin-left:70%;" class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" name="query" id="query" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+ 
+
+  {% if patients %}
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h6 class="panel-title">Your Total Patient List</h6>
+    </div>
+    <table class="table table-hover" id="dev-table">
+      <thead>
+        <th>Name</th>
+          <th>Treatment Type</th>
+          <th>Address</th>
+          <th>Chol Level</th>
+          <th>Weight(lb)</th>
+          <th>BP 1S</th>
+          <th>Notes</th>
+          <th>Update</th>
+          <th>Delete</th>
+          <th>Last Updated</th>
+          <th>Updated By</th>
+        </tr>
+      </thead>
+
+      {% for p in patients %}
+      <tr>
+        <td> {{p.get_name}}</td>
+        <td>{{p.treatment_type}}</td>
+        <td>{{p.address}}</td>
+        <td>{{p.cholesterol_level}}</td>
+        <td>{{p.weight_lb}}</td>
+        <td>{{p.bp_1s}}</td>
+        <td>{{p.notes}}</td>
+        <td><a class="btn btn-primary btn-xs" href="{% url 'doctor-update-patient' p.id  %}"><span class="glyphicon glyphicon-edit"></span></a></td>
+        <td><a class="btn btn-danger btn-xs" href="{% url 'delete-patient-from-hospital' p.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
+
+        <!-- ... Existing table data ... -->
+        <td>{{ p.last_updated|localtime|date:"F d, Y. H:i" }}</td>
+
+        <td>{{ p.updated_by.get_full_name }} ({{p.updated_by.doctor.department}})  </td>
+
+      </tr>
+      {% endfor %}
+
+    </table>
+  </div>
+  {%else%}
+  <br><br><br>
+  <h4 style="text-align: center;color: red;">No Patient Found !!!</h4>
+  {% endif %}
+
+
+</div>
+
+{% endblock content %}

@@ -1,0 +1,77 @@
+# FROM ubuntu:16.04
+# RUN apt-get update \
+#   && apt-get install -y wget gcc make openssl libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev flex bison python-dev libgmp3-dev\
+#   && apt-get clean
+
+# RUN wget https://www.python.org/ftp/python/3.3.7/Python-3.3.7.tgz && \
+#     tar xvf Python-3.3.7.tgz
+
+# RUN cd Python-3.3.7 && \
+#     ./configure --prefix=/usr/local && \
+#     make && make install
+# RUN rm -f /usr/local/bin/python3
+
+
+# RUN ln -s /usr/local/bin/python3.3 /usr/local/bin/python3 && \
+#     ln -s /usr/local/bin/pip3 /usr/local/bin/pip
+# RUN wget https://bootstrap.pypa.io/pip/3.3/get-pip.py && \
+#     python3 get-pip.py
+# COPY pbc-0.5.14.tar.gz /tmp/
+# RUN cd /tmp && \
+#     tar -xzf pbc-0.5.14.tar.gz && \
+#     cd pbc-0.5.14 && \
+#     ./configure && \
+#     make && \
+#     make install && \
+#     ldconfig && \
+#     cd /tmp && \
+#     rm -rf pbc-0.5.14* pbc-0.5.14.tar.gz
+
+# RUN echo pwd
+
+# RUN pip install charm-crypto
+# WORKDIR /app
+# COPY . .
+# RUN echo "working dic set"
+# EXPOSE 8000
+# Use the official Ubuntu 20.04 as the base image
+# Use the official Ubuntu 20.04 as the base image
+FROM ubuntu:22.04
+
+# Set environment variables to prevent interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update and install necessary packages
+RUN apt-get update && \
+    apt-get install -y python3.10 python3.10-dev python3-pip curl && \
+    apt-get clean
+# RUN apt-get update && \
+#     apt-get install -y curl && \
+#     apt-get clean
+# RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+#     python3 get-pip.py && \
+#     rm get-pip.py
+RUN python3 -m pip install --upgrade pip
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file into the container
+COPY requirements.txt /app/
+
+# Install Python dependencies
+RUN python3.10 -m pip install --no-cache-dir -r requirements.txt
+
+# Copy the Django project files into the container
+COPY . /app/
+
+# Expose the port that Django runs on
+EXPOSE 8000
+
+# Make migrations
+RUN python3.10 manage.py makemigrations
+
+# Apply migrations
+RUN python3.10 manage.py migrate
+# Start the Django development server
+CMD ["python3.10", "manage.py", "runserver", "0.0.0.0:8000"]

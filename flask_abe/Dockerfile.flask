@@ -1,0 +1,42 @@
+FROM ubuntu:16.04
+RUN apt-get update \
+  && apt-get install -y wget gcc make openssl libffi-dev libgdbm-dev libsqlite3-dev libssl-dev zlib1g-dev flex bison python-dev libgmp3-dev\
+  && apt-get clean
+
+RUN wget https://www.python.org/ftp/python/3.3.7/Python-3.3.7.tgz && \
+    tar xvf Python-3.3.7.tgz
+
+RUN cd Python-3.3.7 && \
+    ./configure --prefix=/usr/local && \
+    make && make install
+RUN rm -f /usr/local/bin/python3
+
+
+RUN ln -s /usr/local/bin/python3.3 /usr/local/bin/python3 && \
+    ln -s /usr/local/bin/pip3 /usr/local/bin/pip
+RUN wget https://bootstrap.pypa.io/pip/3.3/get-pip.py && \
+    python3 get-pip.py
+COPY pbc-0.5.14.tar.gz /tmp/
+RUN cd /tmp && \
+    tar -xzf pbc-0.5.14.tar.gz && \
+    cd pbc-0.5.14 && \
+    ./configure && \
+    make && \
+    make install && \
+    ldconfig && \
+    cd /tmp && \
+    rm -rf pbc-0.5.14* pbc-0.5.14.tar.gz
+
+RUN echo pwd
+RUN apt-get install -y python3-flask
+RUN pip install charm-crypto
+RUN pip install Flask==0.10.1
+ENV LANG en_US.UTF-8
+ENV FLASK_APP=abe.py
+WORKDIR /app
+COPY . .
+EXPOSE 5000
+
+CMD ["python3", "abe.py"]
+
+
