@@ -25,7 +25,7 @@ grpcio-status==1.56.2
 gunicorn==22.0.0
 idna==3.7
 packaging==23.1
-Pillow==10.0.0
+Pillow==10.3.0
 proto-plus==1.22.3
 protobuf==4.23.4
 psycopg2-binary==2.9.5
